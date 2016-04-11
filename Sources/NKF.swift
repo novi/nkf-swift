@@ -10,16 +10,20 @@ import CNKF
 
 final public class NKF {
     
-    static func Sync<T>(@noescape block: () -> T) -> T {
-        pthread_mutex_lock(mutex)
+    private static func Sync<T>(@noescape block: () -> T) -> T {
+        pthread_mutex_lock(&mutex)
         let result = block()
-        pthread_mutex_unlock(mutex)
+        pthread_mutex_unlock(&mutex)
         return result
     }
     
-    static let mutex: UnsafeMutablePointer<pthread_mutex_t> = UnsafeMutablePointer.alloc(sizeof(pthread_mutex_t))
+    private static var mutex: pthread_mutex_t = {
+        var m = pthread_mutex_t()
+        pthread_mutex_init(&m, nil)
+        return m
+    }()
     
-    static func convert(src: CFDataRef, options: String) -> (CFDataRef, Int) {
+    private static func convert(src: CFData, options: String) -> (CFData, Int) {
         var outLength: CFIndex = 0
         let out = Sync {
             cf_nkf_convert(src, options, &outLength)
@@ -27,14 +31,20 @@ final public class NKF {
         return (out, outLength)
     }
     
-    public static func convert(src: CFDataRef, options: String) -> String? {
+    private static func convert(src: CFData, options: String) -> String? {
         let out = Sync {
             cf_nkf_convert_to_utf8(src, options) as String?
         }
         return out
     }
     
-    public static func guess(src: CFDataRef) -> Encoding? {
+    public static func convert(src: CFData, options: Option = []) -> String? {
+        var newOptions = options
+        newOptions.insert(.ToUTF8)
+        return convert(src, options: newOptions.argValue)
+    }
+    
+    public static func guess(src: CFData) -> Encoding? {
         let out = Sync {
             cf_nkf_guess(src) as String?
         }

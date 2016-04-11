@@ -7,35 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		529963141C312590007D30D6 /* CNKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5299630F1C31257F007D30D6 /* CNKF.framework */; };
+		528020B71CBBA34A004F3529 /* CNKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528020B41CBBA33C004F3529 /* CNKF.framework */; };
+		528020CB1CBBA4B1004F3529 /* NKFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528020C91CBBA4B1004F3529 /* NKFTests.swift */; };
+		528020E61CBBA68D004F3529 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528020E51CBBA68D004F3529 /* Options.swift */; };
 		529963171C312935007D30D6 /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529963161C312935007D30D6 /* Encoding.swift */; };
 		52AD3B141C2FCC8A00CCBC92 /* NKF.h in Headers */ = {isa = PBXBuildFile; fileRef = 52AD3B131C2FCC8A00CCBC92 /* NKF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52AD3B1B1C2FCC8A00CCBC92 /* NKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52AD3B101C2FCC8A00CCBC92 /* NKF.framework */; };
-		52AD3B201C2FCC8A00CCBC92 /* NKFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AD3B1F1C2FCC8A00CCBC92 /* NKFTests.swift */; };
 		52AD3B2C1C2FCCA500CCBC92 /* NKF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AD3B2B1C2FCCA500CCBC92 /* NKF.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5299630E1C31257F007D30D6 /* PBXContainerItemProxy */ = {
+		528020B31CBBA33C004F3529 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 529963091C31257F007D30D6 /* CNKF.xcodeproj */;
+			containerPortal = 528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 529962DD1C2FDE4C007D30D6;
 			remoteInfo = CNKF;
 		};
-		529963101C31257F007D30D6 /* PBXContainerItemProxy */ = {
+		528020B51CBBA33C004F3529 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 529963091C31257F007D30D6 /* CNKF.xcodeproj */;
+			containerPortal = 528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 529962E71C2FDE4C007D30D6;
 			remoteInfo = CNKFTests;
-		};
-		529963121C31258C007D30D6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 529963091C31257F007D30D6 /* CNKF.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 529962DC1C2FDE4C007D30D6;
-			remoteInfo = CNKF;
 		};
 		52AD3B1C1C2FCC8A00CCBC92 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -47,13 +41,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		529963091C31257F007D30D6 /* CNKF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CNKF.xcodeproj; path = "../../CNKF/OSX Projects/CNKF/CNKF.xcodeproj"; sourceTree = "<group>"; };
+		528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CNKF.xcodeproj; path = ../../CNKF/XCode/CNKF/CNKF.xcodeproj; sourceTree = "<group>"; };
+		528020C51CBBA488004F3529 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../../Package.swift; sourceTree = "<group>"; };
+		528020C71CBBA4B1004F3529 /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
+		528020C91CBBA4B1004F3529 /* NKFTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKFTests.swift; sourceTree = "<group>"; };
+		528020E51CBBA68D004F3529 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		529963161C312935007D30D6 /* Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoding.swift; sourceTree = "<group>"; };
 		52AD3B101C2FCC8A00CCBC92 /* NKF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NKF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52AD3B131C2FCC8A00CCBC92 /* NKF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NKF.h; sourceTree = "<group>"; };
 		52AD3B151C2FCC8A00CCBC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52AD3B1A1C2FCC8A00CCBC92 /* NKFTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NKFTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		52AD3B1F1C2FCC8A00CCBC92 /* NKFTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NKFTests.swift; sourceTree = "<group>"; };
 		52AD3B211C2FCC8A00CCBC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52AD3B2B1C2FCCA500CCBC92 /* NKF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKF.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,7 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				529963141C312590007D30D6 /* CNKF.framework in Frameworks */,
+				528020B71CBBA34A004F3529 /* CNKF.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,19 +75,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5299630A1C31257F007D30D6 /* Products */ = {
+		528020AF1CBBA33C004F3529 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5299630F1C31257F007D30D6 /* CNKF.framework */,
-				529963111C31257F007D30D6 /* CNKFTests.xctest */,
+				528020B41CBBA33C004F3529 /* CNKF.framework */,
+				528020B61CBBA33C004F3529 /* CNKFTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		528020C61CBBA4B1004F3529 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				528020C71CBBA4B1004F3529 /* LinuxMain.swift */,
+				528020C81CBBA4B1004F3529 /* NKF */,
+			);
+			name = Tests;
+			path = ../../../Tests;
+			sourceTree = "<group>";
+		};
+		528020C81CBBA4B1004F3529 /* NKF */ = {
+			isa = PBXGroup;
+			children = (
+				528020C91CBBA4B1004F3529 /* NKFTests.swift */,
+			);
+			path = NKF;
 			sourceTree = "<group>";
 		};
 		52AD3B061C2FCC8A00CCBC92 = {
 			isa = PBXGroup;
 			children = (
-				529963091C31257F007D30D6 /* CNKF.xcodeproj */,
+				528020C51CBBA488004F3529 /* Package.swift */,
+				528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */,
 				52AD3B121C2FCC8A00CCBC92 /* NKF */,
 				52AD3B1E1C2FCC8A00CCBC92 /* NKFTests */,
 				52AD3B111C2FCC8A00CCBC92 /* Products */,
@@ -119,7 +135,7 @@
 		52AD3B1E1C2FCC8A00CCBC92 /* NKFTests */ = {
 			isa = PBXGroup;
 			children = (
-				52AD3B1F1C2FCC8A00CCBC92 /* NKFTests.swift */,
+				528020C61CBBA4B1004F3529 /* Tests */,
 				52AD3B211C2FCC8A00CCBC92 /* Info.plist */,
 			);
 			path = NKFTests;
@@ -130,6 +146,7 @@
 			children = (
 				52AD3B2B1C2FCCA500CCBC92 /* NKF.swift */,
 				529963161C312935007D30D6 /* Encoding.swift */,
+				528020E51CBBA68D004F3529 /* Options.swift */,
 			);
 			name = Sources;
 			path = ../../../Sources;
@@ -161,7 +178,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				529963131C31258C007D30D6 /* PBXTargetDependency */,
 			);
 			name = NKF;
 			productName = NKF;
@@ -216,8 +232,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 5299630A1C31257F007D30D6 /* Products */;
-					ProjectRef = 529963091C31257F007D30D6 /* CNKF.xcodeproj */;
+					ProductGroup = 528020AF1CBBA33C004F3529 /* Products */;
+					ProjectRef = 528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -229,18 +245,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		5299630F1C31257F007D30D6 /* CNKF.framework */ = {
+		528020B41CBBA33C004F3529 /* CNKF.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CNKF.framework;
-			remoteRef = 5299630E1C31257F007D30D6 /* PBXContainerItemProxy */;
+			remoteRef = 528020B31CBBA33C004F3529 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		529963111C31257F007D30D6 /* CNKFTests.xctest */ = {
+		528020B61CBBA33C004F3529 /* CNKFTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = CNKFTests.xctest;
-			remoteRef = 529963101C31257F007D30D6 /* PBXContainerItemProxy */;
+			remoteRef = 528020B51CBBA33C004F3529 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -268,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				529963171C312935007D30D6 /* Encoding.swift in Sources */,
+				528020E61CBBA68D004F3529 /* Options.swift in Sources */,
 				52AD3B2C1C2FCCA500CCBC92 /* NKF.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,18 +293,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52AD3B201C2FCC8A00CCBC92 /* NKFTests.swift in Sources */,
+				528020CB1CBBA4B1004F3529 /* NKFTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		529963131C31258C007D30D6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CNKF;
-			targetProxy = 529963121C31258C007D30D6 /* PBXContainerItemProxy */;
-		};
 		52AD3B1D1C2FCC8A00CCBC92 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 52AD3B0F1C2FCC8A00CCBC92 /* NKF */;
