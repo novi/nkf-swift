@@ -14,6 +14,7 @@ extension NKF {
         
         // TODO: implement other options
         static let ToUTF8 = Option(rawValue: 1 << 0)
+        static let Strict = Option(rawValue: 1 << 1)
         
         var argValue: String {
             var argValue = ""

@@ -8,6 +8,15 @@
 
 import CNKF
 
+extension String {
+    private func toData() -> CFData {
+        return withCString{ ptr in
+            let cf = CFStringCreateWithCString(nil, ptr, CFStringBuiltInEncodings.UTF8.rawValue)
+            return CFStringCreateExternalRepresentation(nil, cf, CFStringBuiltInEncodings.UTF8.rawValue, 0)
+        }
+    }
+}
+
 final public class NKF {
     
     private static func Sync<T>(@noescape block: () -> T) -> T {
@@ -23,32 +32,36 @@ final public class NKF {
         return m
     }()
     
-    private static func convert(src: CFData, options: String) -> (CFData, Int) {
+    private static func convert(src: CFData, options: Option) -> (CFData, Int) {
         var outLength: CFIndex = 0
         let out = Sync {
-            cf_nkf_convert(src, options, &outLength)
+            cf_nkf_convert(src, options.argValue.toData(), &outLength)
         }
         return (out, outLength)
-    }
-    
-    private static func convert(src: CFData, options: String) -> String? {
-        let out = Sync {
-            cf_nkf_convert_to_utf8(src, options) as String?
-        }
-        return out
     }
     
     public static func convert(src: CFData, options: Option = []) -> String? {
         var newOptions = options
         newOptions.insert(.ToUTF8)
-        return convert(src, options: newOptions.argValue)
+        
+        let out: (CFData, Int) = convert(src, options: newOptions)
+        let ptr = unsafeBitCast(CFDataGetBytePtr(out.0), to: UnsafePointer<CChar>.self)
+        if options.contains(.Strict) {
+            return String(validatingUTF8: ptr)
+        } else {
+            return String(cString: ptr)
+        }
     }
     
     public static func guess(src: CFData) -> Encoding? {
         let out = Sync {
-            cf_nkf_guess(src) as String?
+            cf_nkf_guess(src)
         }
-        guard let code = out else {
+        if out == nil {
+            return nil
+        }
+        
+        guard let code = String(validatingUTF8: out) else {
             return nil
         }
         return Encoding(rawValue: code)
