@@ -32,19 +32,19 @@ final public class NKF {
         return m
     }()
     
-    private static func convert(src: CFData, options: Option) -> (CFData, Int) {
+    private static func convert(data srcData: CFData, options: Option) -> (CFData, Int) {
         var outLength: CFIndex = 0
         let out = Sync {
-            cf_nkf_convert(src, options.argValue.toData(), &outLength)
+            cf_nkf_convert(srcData, options.argValue.toData(), &outLength)
         }
         return (out, outLength)
     }
     
-    public static func convert(src: CFData, options: Option = []) -> String? {
+    public static func convert(data srcData: CFData, options: Option = []) -> String? {
         var newOptions = options
         newOptions.insert(.ToUTF8)
         
-        let out: (CFData, Int) = convert(src, options: newOptions)
+        let out: (CFData, Int) = convert(data: srcData, options: newOptions)
         let ptr = unsafeBitCast(CFDataGetBytePtr(out.0), to: UnsafePointer<CChar>.self)
         if options.contains(.Strict) {
             return String(validatingUTF8: ptr)
@@ -53,15 +53,12 @@ final public class NKF {
         }
     }
     
-    public static func guess(src: CFData) -> Encoding? {
+    public static func guess(data src: CFData) -> Encoding? {
         let out = Sync {
             cf_nkf_guess(src)
         }
-        if out == nil {
-            return nil
-        }
         
-        guard let code = String(validatingUTF8: out) else {
+        guard let codePtr = out, let code = String(validatingUTF8: codePtr) else {
             return nil
         }
         return Encoding(rawValue: code)
