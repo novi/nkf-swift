@@ -7,6 +7,7 @@
 //
 
 import CNKF
+import CoreFoundation
 
 extension String {
     private func toData() -> CFData {
@@ -19,7 +20,7 @@ extension String {
 
 final public class NKF {
     
-    private static func Sync<T>(@noescape block: () -> T) -> T {
+    private static func Sync<T>( block: @noescape () -> T) -> T {
         pthread_mutex_lock(&mutex)
         let result = block()
         pthread_mutex_unlock(&mutex)
@@ -42,11 +43,11 @@ final public class NKF {
     
     public static func convert(data srcData: CFData, options: Option = []) -> String? {
         var newOptions = options
-        newOptions.insert(.ToUTF8)
+        _ = newOptions.insert(.toUTF8)
         
         let out: (CFData, Int) = convert(data: srcData, options: newOptions)
         let ptr = unsafeBitCast(CFDataGetBytePtr(out.0), to: UnsafePointer<CChar>.self)
-        if options.contains(.Strict) {
+        if options.contains(.strict) {
             return String(validatingUTF8: ptr)
         } else {
             return String(cString: ptr)
