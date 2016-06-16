@@ -7,30 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		528020B71CBBA34A004F3529 /* CNKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528020B41CBBA33C004F3529 /* CNKF.framework */; };
 		528020CB1CBBA4B1004F3529 /* NKFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528020C91CBBA4B1004F3529 /* NKFTests.swift */; };
-		528020E61CBBA68D004F3529 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528020E51CBBA68D004F3529 /* Options.swift */; };
-		529963171C312935007D30D6 /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529963161C312935007D30D6 /* Encoding.swift */; };
 		52AD3B141C2FCC8A00CCBC92 /* NKF.h in Headers */ = {isa = PBXBuildFile; fileRef = 52AD3B131C2FCC8A00CCBC92 /* NKF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52AD3B1B1C2FCC8A00CCBC92 /* NKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52AD3B101C2FCC8A00CCBC92 /* NKF.framework */; };
-		52AD3B2C1C2FCCA500CCBC92 /* NKF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52AD3B2B1C2FCCA500CCBC92 /* NKF.swift */; };
+		52C2931F1D12959A00680439 /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C2931C1D12959A00680439 /* Encoding.swift */; };
+		52C293201D12959A00680439 /* NKF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C2931D1D12959A00680439 /* NKF.swift */; };
+		52C293211D12959A00680439 /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C2931E1D12959A00680439 /* Options.swift */; };
+		52C293421D12968200680439 /* CNKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52C293411D12967E00680439 /* CNKF.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		528020B31CBBA33C004F3529 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 529962DD1C2FDE4C007D30D6;
-			remoteInfo = CNKF;
-		};
-		528020B51CBBA33C004F3529 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 529962E71C2FDE4C007D30D6;
-			remoteInfo = CNKFTests;
-		};
 		52AD3B1C1C2FCC8A00CCBC92 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 52AD3B071C2FCC8A00CCBC92 /* Project object */;
@@ -38,21 +24,28 @@
 			remoteGlobalIDString = 52AD3B0F1C2FCC8A00CCBC92;
 			remoteInfo = NKF;
 		};
+		52C293401D12967E00680439 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52C2933C1D12967E00680439 /* CNKF.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52C2932C1D12964000680439;
+			remoteInfo = CNKF;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CNKF.xcodeproj; path = ../../CNKF/XCode/CNKF/CNKF.xcodeproj; sourceTree = "<group>"; };
 		528020C51CBBA488004F3529 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../../Package.swift; sourceTree = "<group>"; };
 		528020C71CBBA4B1004F3529 /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		528020C91CBBA4B1004F3529 /* NKFTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKFTests.swift; sourceTree = "<group>"; };
-		528020E51CBBA68D004F3529 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
-		529963161C312935007D30D6 /* Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encoding.swift; sourceTree = "<group>"; };
 		52AD3B101C2FCC8A00CCBC92 /* NKF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NKF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52AD3B131C2FCC8A00CCBC92 /* NKF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NKF.h; sourceTree = "<group>"; };
 		52AD3B151C2FCC8A00CCBC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52AD3B1A1C2FCC8A00CCBC92 /* NKFTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NKFTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52AD3B211C2FCC8A00CCBC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52AD3B2B1C2FCCA500CCBC92 /* NKF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKF.swift; sourceTree = "<group>"; };
+		52C2931C1D12959A00680439 /* Encoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Encoding.swift; path = NKF/Encoding.swift; sourceTree = "<group>"; };
+		52C2931D1D12959A00680439 /* NKF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NKF.swift; path = NKF/NKF.swift; sourceTree = "<group>"; };
+		52C2931E1D12959A00680439 /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Options.swift; path = NKF/Options.swift; sourceTree = "<group>"; };
+		52C2933C1D12967E00680439 /* CNKF.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CNKF.xcodeproj; path = ../CNKF/CNKF.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				528020B71CBBA34A004F3529 /* CNKF.framework in Frameworks */,
+				52C293421D12968200680439 /* CNKF.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,15 +68,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		528020AF1CBBA33C004F3529 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				528020B41CBBA33C004F3529 /* CNKF.framework */,
-				528020B61CBBA33C004F3529 /* CNKFTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		528020C61CBBA4B1004F3529 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,8 +89,8 @@
 		52AD3B061C2FCC8A00CCBC92 = {
 			isa = PBXGroup;
 			children = (
+				52C2933C1D12967E00680439 /* CNKF.xcodeproj */,
 				528020C51CBBA488004F3529 /* Package.swift */,
-				528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */,
 				52AD3B121C2FCC8A00CCBC92 /* NKF */,
 				52AD3B1E1C2FCC8A00CCBC92 /* NKFTests */,
 				52AD3B111C2FCC8A00CCBC92 /* Products */,
@@ -144,12 +128,20 @@
 		52AD3B2A1C2FCC9900CCBC92 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				52AD3B2B1C2FCCA500CCBC92 /* NKF.swift */,
-				529963161C312935007D30D6 /* Encoding.swift */,
-				528020E51CBBA68D004F3529 /* Options.swift */,
+				52C2931C1D12959A00680439 /* Encoding.swift */,
+				52C2931D1D12959A00680439 /* NKF.swift */,
+				52C2931E1D12959A00680439 /* Options.swift */,
 			);
 			name = Sources;
 			path = ../../../Sources;
+			sourceTree = "<group>";
+		};
+		52C2933D1D12967E00680439 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				52C293411D12967E00680439 /* CNKF.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,6 +206,7 @@
 				TargetAttributes = {
 					52AD3B0F1C2FCC8A00CCBC92 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					52AD3B191C2FCC8A00CCBC92 = {
 						CreatedOnToolsVersion = 7.2;
@@ -232,8 +225,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 528020AF1CBBA33C004F3529 /* Products */;
-					ProjectRef = 528020AE1CBBA33C004F3529 /* CNKF.xcodeproj */;
+					ProductGroup = 52C2933D1D12967E00680439 /* Products */;
+					ProjectRef = 52C2933C1D12967E00680439 /* CNKF.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -245,18 +238,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		528020B41CBBA33C004F3529 /* CNKF.framework */ = {
+		52C293411D12967E00680439 /* CNKF.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = CNKF.framework;
-			remoteRef = 528020B31CBBA33C004F3529 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		528020B61CBBA33C004F3529 /* CNKFTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CNKFTests.xctest;
-			remoteRef = 528020B51CBBA33C004F3529 /* PBXContainerItemProxy */;
+			remoteRef = 52C293401D12967E00680439 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -283,9 +269,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				529963171C312935007D30D6 /* Encoding.swift in Sources */,
-				528020E61CBBA68D004F3529 /* Options.swift in Sources */,
-				52AD3B2C1C2FCCA500CCBC92 /* NKF.swift in Sources */,
+				52C2931F1D12959A00680439 /* Encoding.swift in Sources */,
+				52C293211D12959A00680439 /* Options.swift in Sources */,
+				52C293201D12959A00680439 /* NKF.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +397,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -430,6 +417,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jp.novi.NKF;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -8,9 +8,10 @@
 
 import XCTest
 @testable import NKF
+import Foundation
 
-extension NKFTests {
-    static var allTests : [(String, NKFTests -> () throws -> Void)] {
+extension NKFBasicTests {
+    static var allTests : [(String, NKFBasicTests -> () throws -> Void)] {
         return [
                    ("testUTF8ToUTF8", testUTF8ToUTF8),
                    ("testEUCJPToUTF8", testEUCJPToUTF8),
@@ -20,7 +21,17 @@ extension NKFTests {
     }
 }
 
-class NKFTests: XCTestCase {
+#if !os(OSX)
+    public func allTests() -> [XCTestCaseEntry] {
+        return [
+            testCase( NKFBasicTests.allTests ),
+        ]
+    }
+#endif
+
+
+
+class NKFBasicTests: XCTestCase {
     
     func testUTF8ToUTF8() {
         let src = "日本語🍣あいうえお123"

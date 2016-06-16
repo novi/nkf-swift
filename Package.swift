@@ -1,9 +1,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "NKF",
-    dependencies: [
-                      .Package(url: "https://github.com/novi/CNKF.git", majorVersion: 0)
-                    ],
-    exclude: ["XCode", "CNKF"]
+    name: "nkf-swift",
+    dependencies: [],
+    exclude: ["XCode", "CNKF", "Sources/CNKF/nkf"],
+    targets: [
+        Target(name: "NKF", dependencies: ["CNKF"]),
+        Target(name: "CNKF"),
+    ]
 )
