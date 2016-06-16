@@ -73,9 +73,13 @@ class NKFBasicTests: XCTestCase {
     
     func testEUCJPToUTF8() {
         let src = "日本語あいう123"
-        //print("src",src)
-        let eucjp = src.data(using: String.Encoding.japaneseEUC)!
-        //print("data",eucjp)
+        #if os(OSX)
+            // TODO: fail in Linux
+            let eucjp = src.data(using: String.Encoding.japaneseEUC)!
+        #else
+            let srcBytes:[UInt8] = [0xc6, 0xfc, 0xcb, 0xdc, 0xb8, 0xec, 0xa4, 0xa2, 0xa4, 0xa4, 0xa4, 0xa6, 0x31, 0x32, 0x33] //"日本語あいう123"
+            let eucjp = NSData(bytes: srcBytes, length: srcBytes.count)
+        #endif
         
         let out = NKF.convert(data: eucjp) as String?
         XCTAssertEqual(out!, src)
@@ -95,7 +99,14 @@ class NKFBasicTests: XCTestCase {
     
     func testGuessEUCJP() {
         let src = "日本語あいうえお123"
-        let out = NKF.guess(data: src.data(using: String.Encoding.japaneseEUC)!)
+        #if os(OSX)
+            // TODO: fail in Linux
+            let eucjp = src.data(using: String.Encoding.japaneseEUC)!
+        #else
+            let srcBytes:[UInt8] = [0xc6, 0xfc, 0xcb, 0xdc, 0xb8, 0xec, 0xa4, 0xa2, 0xa4, 0xa4, 0xa4, 0xa6, 0x31, 0x32, 0x33] //"日本語あいう123"
+            let eucjp = NSData(bytes: srcBytes, length: srcBytes.count)
+        #endif
+        let out = NKF.guess(data: eucjp)
         XCTAssertEqual(out!, Encoding.EUCJP)
     }
 
