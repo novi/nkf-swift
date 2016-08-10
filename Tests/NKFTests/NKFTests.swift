@@ -23,30 +23,12 @@ extension NKFBasicTests {
     }
 }
 
-#if !os(OSX)
+#if !os(macOS)
     public func allTests() -> [XCTestCaseEntry] {
         return [
             testCase( NKFBasicTests.allTests ),
         ]
     }
-#endif
-
-#if SWIFT3_DEV
-    extension String {
-        enum Encoding {
-            case utf8
-            case shiftJIS
-            case japaneseEUC
-        }
-        func data(using enc: Encoding) -> NSData? {
-            switch enc {
-            case .utf8: return self.data(using: NSUTF8StringEncoding)
-            case .shiftJIS: return self.data(using: NSShiftJISStringEncoding)
-            case .japaneseEUC: return self.data(using: NSJapaneseEUCStringEncoding)
-            }
-        }
-    }
-    
 #endif
 
 class NKFBasicTests: XCTestCase {
@@ -55,7 +37,7 @@ class NKFBasicTests: XCTestCase {
         let src = "日本語🍣あいうえお123"
         // let src = "日本語あいうえお123🍣" // TODO: will failure
         
-        let srcData = src.data(using: String.Encoding.utf8)!
+        let srcData = src.data(using: .utf8)!
         let out = NKF.convert(data: srcData) as String?
         
         XCTAssertEqual(out!, src)
@@ -64,7 +46,7 @@ class NKFBasicTests: XCTestCase {
     func testShiftJISToUTF8() {
         let src = "日本語あいう123"
         //print("src",src)
-        let sjis = src.data(using: String.Encoding.shiftJIS)!
+        let sjis = src.data(using: .shiftJIS)!
         //print("data",eucjp)
         
         let out = NKF.convert(data: sjis) as String?
@@ -75,7 +57,7 @@ class NKFBasicTests: XCTestCase {
         let src = "日本語あいう123"
         #if os(OSX)
             // TODO: fail in Linux
-            let eucjp = src.data(using: String.Encoding.japaneseEUC)!
+            let eucjp = src.data(using: .japaneseEUC)!
         #else
             let srcBytes:[UInt8] = [0xc6, 0xfc, 0xcb, 0xdc, 0xb8, 0xec, 0xa4, 0xa2, 0xa4, 0xa4, 0xa4, 0xa6, 0x31, 0x32, 0x33] //"日本語あいう123"
             let eucjp = NSData(bytes: srcBytes, length: srcBytes.count)
@@ -87,13 +69,13 @@ class NKFBasicTests: XCTestCase {
     
     func testGuessUTF8() {
         let src = "日本語🍣あいうえお123"
-        let out = NKF.guess(data: src.data(using: String.Encoding.utf8)!)
+        let out = NKF.guess(data: src.data(using: .utf8)!)
         XCTAssertEqual(out!, Encoding.UTF8)
     }
     
     func testGuessSJIS() {
         let src = "日本語あいうえお123"
-        let out = NKF.guess(data: src.data(using: String.Encoding.shiftJIS)!)
+        let out = NKF.guess(data: src.data(using: .shiftJIS)!)
         XCTAssertEqual(out!, Encoding.ShiftJIS)
     }
     
@@ -101,7 +83,7 @@ class NKFBasicTests: XCTestCase {
         let src = "日本語あいうえお123"
         #if os(OSX)
             // TODO: fail in Linux
-            let eucjp = src.data(using: String.Encoding.japaneseEUC)!
+            let eucjp = src.data(using: .japaneseEUC)!
         #else
             let srcBytes:[UInt8] = [0xc6, 0xfc, 0xcb, 0xdc, 0xb8, 0xec, 0xa4, 0xa2, 0xa4, 0xa4, 0xa4, 0xa6, 0x31, 0x32, 0x33] //"日本語あいう123"
             let eucjp = NSData(bytes: srcBytes, length: srcBytes.count)

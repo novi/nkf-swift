@@ -11,7 +11,7 @@ import CoreFoundation
 import Foundation
 
 extension String {
-    private func toData() -> CFData {
+    fileprivate func toData() -> CFData {
         return withCString{ ptr in
             #if os(Linux)
             let cf = CFStringCreateWithCString(nil, ptr, CFStringEncoding(kCFStringEncodingUTF8))
@@ -25,7 +25,17 @@ extension String {
 }
 
 extension NSData {
-    private func cfData() -> CFData {
+    fileprivate func cfData() -> CFData {
+        #if os(Linux)
+            return unsafeBitCast(self, to: CFData.self)
+        #else
+            return self as CFData
+        #endif
+    }
+}
+
+extension Data {
+    fileprivate func cfData() -> CFData {
         #if os(Linux)
             return unsafeBitCast(self, to: CFData.self)
         #else
@@ -36,10 +46,12 @@ extension NSData {
 
 final public class NKF {
     
-    private static func Sync<T>( block: @noescape () -> T) -> T {
+    private static func Sync<T>( block: @noescape () throws -> T) rethrows -> T {
         pthread_mutex_lock(&mutex)
-        let result = block()
-        pthread_mutex_unlock(&mutex)
+        defer {
+            pthread_mutex_unlock(&mutex)
+        }
+        let result = try block()
         return result
     }
     
@@ -80,6 +92,10 @@ final public class NKF {
         }
     }
     
+    public static func convert(data srcData: Data, options: Option = []) -> String? {
+        return self.convert(data: srcData.cfData(), options: options)
+    }
+    
     public static func convert(data srcData: NSData, options: Option = []) -> String? {
         return self.convert(data: srcData.cfData(), options: options)
     }
@@ -93,6 +109,10 @@ final public class NKF {
             return nil
         }
         return Encoding(rawValue: code)
+    }
+    
+    public static func guess(data src: Data) -> Encoding? {
+        return guess(data: src.cfData())
     }
     
     public static func guess(data src: NSData) -> Encoding? {

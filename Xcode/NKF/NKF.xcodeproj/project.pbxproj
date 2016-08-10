@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		528020CB1CBBA4B1004F3529 /* NKFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528020C91CBBA4B1004F3529 /* NKFTests.swift */; };
+		527C4E701D5AF948004BA632 /* NKFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C4E6F1D5AF948004BA632 /* NKFTests.swift */; };
 		52AD3B141C2FCC8A00CCBC92 /* NKF.h in Headers */ = {isa = PBXBuildFile; fileRef = 52AD3B131C2FCC8A00CCBC92 /* NKF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52AD3B1B1C2FCC8A00CCBC92 /* NKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52AD3B101C2FCC8A00CCBC92 /* NKF.framework */; };
 		52C2931F1D12959A00680439 /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C2931C1D12959A00680439 /* Encoding.swift */; };
@@ -34,9 +34,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		527C4E6F1D5AF948004BA632 /* NKFTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKFTests.swift; sourceTree = "<group>"; };
 		528020C51CBBA488004F3529 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../../Package.swift; sourceTree = "<group>"; };
 		528020C71CBBA4B1004F3529 /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
-		528020C91CBBA4B1004F3529 /* NKFTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKFTests.swift; sourceTree = "<group>"; };
 		52AD3B101C2FCC8A00CCBC92 /* NKF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NKF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52AD3B131C2FCC8A00CCBC92 /* NKF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NKF.h; sourceTree = "<group>"; };
 		52AD3B151C2FCC8A00CCBC92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -68,22 +68,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		527C4E6E1D5AF948004BA632 /* NKFTests */ = {
+			isa = PBXGroup;
+			children = (
+				527C4E6F1D5AF948004BA632 /* NKFTests.swift */,
+			);
+			path = NKFTests;
+			sourceTree = "<group>";
+		};
 		528020C61CBBA4B1004F3529 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				527C4E6E1D5AF948004BA632 /* NKFTests */,
 				528020C71CBBA4B1004F3529 /* LinuxMain.swift */,
-				528020C81CBBA4B1004F3529 /* NKF */,
 			);
 			name = Tests;
 			path = ../../../Tests;
-			sourceTree = "<group>";
-		};
-		528020C81CBBA4B1004F3529 /* NKF */ = {
-			isa = PBXGroup;
-			children = (
-				528020C91CBBA4B1004F3529 /* NKFTests.swift */,
-			);
-			path = NKF;
 			sourceTree = "<group>";
 		};
 		52AD3B061C2FCC8A00CCBC92 = {
@@ -279,7 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				528020CB1CBBA4B1004F3529 /* NKFTests.swift in Sources */,
+				527C4E701D5AF948004BA632 /* NKFTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,8 +1,8 @@
 import XCTest
-import NKFTestSuite
+import NKFTests
 
 var tests = [XCTestCaseEntry]()
 
-tests += NKFTestSuite.allTests()
+tests += NKFTests.allTests()
 
 XCTMain(tests)
