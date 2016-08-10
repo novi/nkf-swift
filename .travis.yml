@@ -14,5 +14,5 @@ install:
 script:
   - swift build
   - swift test
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project Xcode/NKF/NKF.xcodeproj -scheme NKF build test ; fi
+  #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project Xcode/NKF/NKF.xcodeproj -scheme NKF build test ; fi
   
