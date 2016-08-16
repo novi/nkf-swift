@@ -14,11 +14,11 @@ extension String {
     fileprivate func toData() -> CFData {
         return withCString{ ptr in
             #if os(Linux)
-            let cf = CFStringCreateWithCString(nil, ptr, CFStringEncoding(kCFStringEncodingUTF8))
-            return CFStringCreateExternalRepresentation(nil, cf, CFStringEncoding(kCFStringEncodingUTF8), 0)
+            let cfStr = CFStringCreateWithCString(nil, ptr, CFStringEncoding(kCFStringEncodingUTF8))
+            return CFStringCreateExternalRepresentation(nil, cfStr, CFStringEncoding(kCFStringEncodingUTF8), 0)
             #else
-            let cf = CFStringCreateWithCString(nil, ptr, CFStringBuiltInEncodings.UTF8.rawValue)
-            return CFStringCreateExternalRepresentation(nil, cf, CFStringBuiltInEncodings.UTF8.rawValue, 0)
+            let cfStr = CFStringCreateWithCString(nil, ptr, CFStringBuiltInEncodings.UTF8.rawValue)
+            return CFStringCreateExternalRepresentation(nil, cfStr, CFStringBuiltInEncodings.UTF8.rawValue, 0)
             #endif
         }
     }
@@ -26,18 +26,14 @@ extension String {
 
 extension NSData {
     fileprivate func cfData() -> CFData {
-        #if os(Linux)
-            return unsafeBitCast(self, to: CFData.self)
-        #else
-            return self as CFData
-        #endif
+        return CFDataCreateWithBytesNoCopy(nil, unsafeBitCast(self.bytes, to: UnsafePointer<UInt8>.self), self.length, kCFAllocatorNull)
     }
 }
 
 extension Data {
     fileprivate func cfData() -> CFData {
         #if os(Linux)
-            return unsafeBitCast(self, to: CFData.self)
+            return self._bridgeToObjectiveC().cfData()
         #else
             return self as CFData
         #endif
