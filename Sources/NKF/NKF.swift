@@ -65,7 +65,7 @@ final public class NKF {
         var outLength: CFIndex = 0
         #if os(Linux)
         let out: Unmanaged<CFData> = Sync {
-            let ptr = unsafeBitCast(cf_nkf_convert(srcData, options.argValue.toData(), &outLength), to: UnsafePointer<Void>.self)
+            let ptr = unsafeBitCast(cf_nkf_convert(srcData, options.argValue.toData(), &outLength), to: UnsafeRawPointer.self)
             return Unmanaged.fromOpaque(ptr)
         }
         #else
