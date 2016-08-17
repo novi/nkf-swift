@@ -42,7 +42,7 @@ extension Data {
 
 final public class NKF {
     
-    private static func Sync<T>( block: @noescape () throws -> T) rethrows -> T {
+    private static func Sync<T>( block: () throws -> T) rethrows -> T {
         pthread_mutex_lock(&mutex)
         defer {
             pthread_mutex_unlock(&mutex)
