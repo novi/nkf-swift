@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		526D14531DACDD8100DE177A /* CNKF.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 52C293411D12967E00680439 /* CNKF.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		527C4E701D5AF948004BA632 /* NKFTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527C4E6F1D5AF948004BA632 /* NKFTests.swift */; };
 		52AD3B141C2FCC8A00CCBC92 /* NKF.h in Headers */ = {isa = PBXBuildFile; fileRef = 52AD3B131C2FCC8A00CCBC92 /* NKF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		52AD3B1B1C2FCC8A00CCBC92 /* NKF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52AD3B101C2FCC8A00CCBC92 /* NKF.framework */; };
@@ -32,6 +33,19 @@
 			remoteInfo = CNKF;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		526D14511DACDD7C00DE177A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				526D14531DACDD8100DE177A /* CNKF.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		527C4E6F1D5AF948004BA632 /* NKFTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKFTests.swift; sourceTree = "<group>"; };
@@ -166,6 +180,7 @@
 				52AD3B0C1C2FCC8A00CCBC92 /* Frameworks */,
 				52AD3B0D1C2FCC8A00CCBC92 /* Headers */,
 				52AD3B0E1C2FCC8A00CCBC92 /* Resources */,
+				526D14511DACDD7C00DE177A /* CopyFiles */,
 			);
 			buildRules = (
 			);
