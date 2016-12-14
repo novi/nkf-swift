@@ -1,7 +1,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "nkf-swift",
+    name: "NKF",
     targets: [
         Target(name: "NKF", dependencies: ["CNKF"]),
         Target(name: "CNKF"),
