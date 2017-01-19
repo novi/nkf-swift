@@ -12,12 +12,9 @@
 #ifdef __linux__
 #include <stdlib.h>
 #include <stdio.h>
-
-//#define CF_EXPORT extern
+#include <stdint.h>
 
 // for 64bit
-
-typedef unsigned char           UInt8;
 
 typedef void* CFDataRef;
 typedef void* CFMutableDataRef;
@@ -25,14 +22,9 @@ typedef void* CFAllocatorRef;
 
 typedef signed long long CFIndex;
 
-
-CFMutableDataRef CFDataCreateMutable(CFAllocatorRef allocator, CFIndex capacity);
 CFIndex CFDataGetLength(CFDataRef theData);
-void CFDataIncreaseLength(CFMutableDataRef theData, CFIndex extraLength);
-CFMutableDataRef CFDataCreateMutableCopy(CFAllocatorRef allocator, CFIndex capacity, CFDataRef theData);
 void CFRelease(void*);
-UInt8 *CFDataGetMutableBytePtr(CFMutableDataRef theData);
-const UInt8 *CFDataGetBytePtr(CFDataRef theData);
+const uint8_t *CFDataGetBytePtr(CFDataRef theData);
 
 /* nullability */
 #ifndef __nullable

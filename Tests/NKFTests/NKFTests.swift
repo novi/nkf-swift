@@ -18,7 +18,8 @@ extension NKFBasicTests {
                    ("testEUCJPToUTF8", testEUCJPToUTF8),
                    ("testGuessUTF8", testGuessUTF8),
                    ("testGuessSJIS", testGuessSJIS),
-                   ("testGuessEUCJP", testGuessEUCJP)
+                   ("testGuessEUCJP", testGuessEUCJP),
+                   ("testShortString", testShortString)
         ]
     }
 }
@@ -92,5 +93,14 @@ class NKFBasicTests: XCTestCase {
         XCTAssertEqual(out!, Encoding.EUCJP)
     }
 
+    func testShortString() {
+        let src = "OK"
+        
+        let srcData = src.data(using: .utf8)!
+        let out = NKF.convert(data: srcData) as String?
+        
+        XCTAssertEqual(out!, src)
+        
+    }
     
 }

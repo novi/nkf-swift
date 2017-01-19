@@ -15,27 +15,32 @@
 #undef FALSE
 #define putchar(c)      cf_nkf_putchar(c)
 
-static UInt8 *output;
-static const UInt8 *input;
+static const uint8_t *input;
 
 static CFIndex input_ctr;
 static CFIndex i_len;
 
 static CFIndex output_ctr;
-static CFMutableDataRef outputData;
+static uint8_t* outputPtr;
+static size_t outputPtrCapacity;
 
-static CFIndex incsize = INCSIZE;
+static CFIndex incsize = 0;
+
+void* cf_nkf_realloc_copy(void* ptr, unsigned int newSize)
+{
+    return realloc(ptr, newSize);
+}
 
 static int
 cf_nkf_putchar(unsigned int c)
 {
-    if (outputData == NULL) return c;
+    if (outputPtr == NULL) return c;
     
-    if (output_ctr >= CFDataGetLength(outputData)) {
-        CFDataIncreaseLength(outputData, incsize);
+    if (output_ctr >= outputPtrCapacity) {
+        outputPtr = cf_nkf_realloc_copy(outputPtr, incsize);
         incsize *= 2;
     }
-    output[output_ctr++] = c;
+    outputPtr[output_ctr++] = c;
     
     return c;
 }
@@ -47,9 +52,9 @@ cf_nkf_putchar(unsigned int c)
 #include "nkf/nkf.c"
 
 #ifdef __linux__
- CF_RETURNS_RETAINED CFDataRef cf_nkf_convert(CFDataRef src, CFDataRef optsString,  CFIndex*  outLength)
+uint8_t* cf_nkf_convert(CFDataRef src, CFDataRef optsString,  CFIndex*  outLength)
 #else
- CF_RETURNS_RETAINED __nonnull CFDataRef cf_nkf_convert(__nonnull CFDataRef src, __nonnull CFDataRef optsString,  CFIndex* _Nonnull  outLength)
+uint8_t* cf_nkf_convert(__nonnull CFDataRef src, __nonnull CFDataRef optsString,  CFIndex* _Nonnull  outLength)
 #endif
 {
     
@@ -63,11 +68,11 @@ cf_nkf_putchar(unsigned int c)
     input = CFDataGetBytePtr(src);
     i_len = CFDataGetLength(src);
     
-    outputData = CFDataCreateMutable(NULL, i_len*3 + 10);
-    output = CFDataGetMutableBytePtr(outputData);
+    outputPtrCapacity = i_len*3 + 10;
+    outputPtr = malloc(outputPtrCapacity);
     
     output_ctr = 0;
-    *output    = '\0';
+    *outputPtr    = '\0';
     
     kanji_convert(NULL);
     
@@ -75,11 +80,11 @@ cf_nkf_putchar(unsigned int c)
     
     *outLength = output_ctr;
     
-    return outputData;
+    return outputPtr;
 }
 
 #ifdef __linux__
-CF_RETURNS_RETAINED const char* cf_nkf_guess(CFDataRef src)
+const char* cf_nkf_guess(CFDataRef src)
 #else
 CF_RETURNS_RETAINED const char* cf_nkf_guess(__nonnull CFDataRef src)
 #endif
@@ -91,7 +96,8 @@ CF_RETURNS_RETAINED const char* cf_nkf_guess(__nonnull CFDataRef src)
     input = CFDataGetBytePtr(src);
     i_len = CFDataGetLength(src);
     
-    outputData = NULL; // no output data
+    outputPtr = NULL; // no output data
+    outputPtrCapacity = 0;
     
     kanji_convert(NULL);
     

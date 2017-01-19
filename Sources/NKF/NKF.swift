@@ -57,30 +57,23 @@ final public class NKF {
         return m
     }()
     
-    private static func convert(data srcData: CFData, options: Option) -> (Unmanaged<CFData>, Int) {
+    private static func convert(data srcData: CFData, options: Option) -> (UnsafeMutablePointer<UInt8>, Int) {
         var outLength: CFIndex = 0
-        #if os(Linux)
-        let out: Unmanaged<CFData> = Sync {
-            let ptr = unsafeBitCast(cf_nkf_convert(srcData, options.argValue.toData(), &outLength), to: UnsafeRawPointer.self)
-            return Unmanaged.fromOpaque(ptr)
-        }
-        #else
         let out = Sync {
-            Unmanaged.passRetained(cf_nkf_convert(srcData, options.argValue.toData(), &outLength))
+            cf_nkf_convert(srcData, options.argValue.toData(), &outLength)
         }
-        #endif
-        return (out, outLength)
+        return (out!, outLength)
     }
     
     public static func convert(data srcData: CFData, options: Option = []) -> String? {
         var newOptions = options
         _ = newOptions.insert(.toUTF8)
         
-        let out: (Unmanaged<CFData>, Int) = convert(data: srcData, options: newOptions)
+        let out: (UnsafeMutablePointer<UInt8>, Int) = convert(data: srcData, options: newOptions)
         defer {
-            out.0.release()
+            free(out.0)
         }
-        let ptr = unsafeBitCast(CFDataGetBytePtr(out.0.takeUnretainedValue()), to: UnsafePointer<CChar>.self)
+        let ptr = unsafeBitCast(out.0, to: UnsafePointer<CChar>.self)
         if options.contains(.strict) {
             return String(validatingUTF8: ptr)
         } else {
