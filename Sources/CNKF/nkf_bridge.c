@@ -1,4 +1,5 @@
 #include "include/CFHeader.h"
+#include "include/nkf_bridge.h"
 
 #ifndef CF_NKF_H
 #define CF_NKF_H
@@ -51,50 +52,40 @@ cf_nkf_putchar(unsigned int c)
 #include "nkf/utf8tbl.c"
 #include "nkf/nkf.c"
 
-#ifdef __linux__
-uint8_t* cf_nkf_convert(CFDataRef src, CFDataRef optsString,  CFIndex*  outLength)
-#else
-uint8_t* cf_nkf_convert(__nonnull CFDataRef src, __nonnull CFDataRef optsString,  CFIndex* _Nonnull  outLength)
-#endif
+CF_EXPORT uint8_t* cf_nkf_convert(const uint8_t* src, size_t srcLength, const char* opts, CFIndex* outLength)
 {
     
     reinit();
     incsize = INCSIZE;
     
-    CFMutableDataRef optsDataM = CFDataCreateMutableCopy(NULL, CFDataGetLength(optsString), optsString);
-    options(CFDataGetMutableBytePtr(optsDataM));
+    options((unsigned char*)opts);
     
     input_ctr = 0;
-    input = CFDataGetBytePtr(src);
-    i_len = CFDataGetLength(src);
+    input = src;
+    i_len = srcLength;
     
     outputPtrCapacity = i_len*3 + 10;
     outputPtr = malloc(outputPtrCapacity);
     
     output_ctr = 0;
-    *outputPtr    = '\0';
+    *outputPtr = '\0';
     
     kanji_convert(NULL);
     
-    CFRelease(optsDataM);
-    
+    outputPtr[output_ctr++] = '\0';
     *outLength = output_ctr;
     
     return outputPtr;
 }
 
-#ifdef __linux__
-const char* cf_nkf_guess(CFDataRef src)
-#else
-CF_RETURNS_RETAINED const char* cf_nkf_guess(__nonnull CFDataRef src)
-#endif
+CF_EXPORT const char* cf_nkf_guess(const uint8_t* src, size_t srcLength)
 {
     reinit();
     incsize = INCSIZE;
     
     input_ctr = 0;
-    input = CFDataGetBytePtr(src);
-    i_len = CFDataGetLength(src);
+    input = src;
+    i_len = srcLength;
     
     outputPtr = NULL; // no output data
     outputPtrCapacity = 0;

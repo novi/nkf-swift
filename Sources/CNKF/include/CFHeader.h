@@ -16,15 +16,7 @@
 
 // for 64bit
 
-typedef void* CFDataRef;
-typedef void* CFMutableDataRef;
-typedef void* CFAllocatorRef;
-
 typedef signed long long CFIndex;
-
-CFIndex CFDataGetLength(CFDataRef theData);
-void CFRelease(void*);
-const uint8_t *CFDataGetBytePtr(CFDataRef theData);
 
 /* nullability */
 #ifndef __nullable

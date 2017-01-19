@@ -7,38 +7,7 @@
 //
 
 import CNKF
-import CoreFoundation
 import Foundation
-
-extension String {
-    fileprivate func toData() -> CFData {
-        return withCString{ ptr in
-            #if os(Linux)
-            let cfStr = CFStringCreateWithCString(nil, ptr, CFStringEncoding(kCFStringEncodingUTF8))
-            return CFStringCreateExternalRepresentation(nil, cfStr, CFStringEncoding(kCFStringEncodingUTF8), 0)
-            #else
-            let cfStr = CFStringCreateWithCString(nil, ptr, CFStringBuiltInEncodings.UTF8.rawValue)
-            return CFStringCreateExternalRepresentation(nil, cfStr, CFStringBuiltInEncodings.UTF8.rawValue, 0)
-            #endif
-        }
-    }
-}
-
-extension NSData {
-    fileprivate func cfData() -> CFData {
-        return CFDataCreateWithBytesNoCopy(nil, unsafeBitCast(self.bytes, to: UnsafePointer<UInt8>.self), self.length, kCFAllocatorNull)
-    }
-}
-
-extension Data {
-    fileprivate func cfData() -> CFData {
-        #if os(Linux)
-            return self._bridgeToObjectiveC().cfData()
-        #else
-            return self as CFData
-        #endif
-    }
-}
 
 final public class NKF {
     
@@ -57,19 +26,19 @@ final public class NKF {
         return m
     }()
     
-    private static func convert(data srcData: CFData, options: Option) -> (UnsafeMutablePointer<UInt8>, Int) {
+    private static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option) -> (UnsafeMutablePointer<UInt8>, Int) {
         var outLength: CFIndex = 0
         let out = Sync {
-            cf_nkf_convert(srcData, options.argValue.toData(), &outLength)
+            cf_nkf_convert(src, length, options.argValue, &outLength)
         }
         return (out!, outLength)
     }
     
-    public static func convert(data srcData: CFData, options: Option = []) -> String? {
+    public static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option = []) -> String? {
         var newOptions = options
         _ = newOptions.insert(.toUTF8)
         
-        let out: (UnsafeMutablePointer<UInt8>, Int) = convert(data: srcData, options: newOptions)
+        let out: (UnsafeMutablePointer<UInt8>, Int) = convert(src: src, length: length, options: newOptions)
         defer {
             free(out.0)
         }
@@ -82,16 +51,18 @@ final public class NKF {
     }
     
     public static func convert(data srcData: Data, options: Option = []) -> String? {
-        return self.convert(data: srcData.cfData(), options: options)
+        return srcData.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
+            self.convert(src: ptr, length: srcData.count, options: options)
+        })
     }
     
     public static func convert(data srcData: NSData, options: Option = []) -> String? {
-        return self.convert(data: srcData.cfData(), options: options)
+        return self.convert(src: unsafeBitCast(srcData.bytes, to: UnsafePointer<UInt8>.self), length: srcData.length, options: options)
     }
     
-    public static func guess(data src: CFData) -> Encoding? {
+    public static func guess(src: UnsafePointer<UInt8>, length: Int) -> Encoding? {
         let out = Sync {
-            cf_nkf_guess(src)
+            cf_nkf_guess(src, length)
         }
         
         guard let codePtr = out, let code = String(validatingUTF8: codePtr) else {
@@ -101,10 +72,12 @@ final public class NKF {
     }
     
     public static func guess(data src: Data) -> Encoding? {
-        return guess(data: src.cfData())
+        return src.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
+            guess(src: ptr, length: src.count)
+        })
     }
     
     public static func guess(data src: NSData) -> Encoding? {
-        return guess(data: src.cfData())
+        return guess(src: unsafeBitCast(src.bytes, to: UnsafePointer<UInt8>.self), length: src.length)
     }
 }
