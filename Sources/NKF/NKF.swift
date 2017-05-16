@@ -42,7 +42,7 @@ final public class NKF {
         defer {
             free(out.0)
         }
-        let ptr = unsafeBitCast(out.0, to: UnsafePointer<CChar>.self)
+        let ptr = UnsafeMutableRawPointer(out.0).assumingMemoryBound(to: CChar.self)
         if options.contains(.strict) {
             return String(validatingUTF8: ptr)
         } else {
@@ -57,7 +57,7 @@ final public class NKF {
     }
     
     public static func convert(data srcData: NSData, options: Option = []) -> String? {
-        return self.convert(src: unsafeBitCast(srcData.bytes, to: UnsafePointer<UInt8>.self), length: srcData.length, options: options)
+        return self.convert(src: srcData.bytes.assumingMemoryBound(to: UInt8.self), length: srcData.length, options: options)
     }
     
     public static func guess(src: UnsafePointer<UInt8>, length: Int) -> Encoding? {
@@ -78,6 +78,6 @@ final public class NKF {
     }
     
     public static func guess(data src: NSData) -> Encoding? {
-        return guess(src: unsafeBitCast(src.bytes, to: UnsafePointer<UInt8>.self), length: src.length)
+        return guess(src: src.bytes.assumingMemoryBound(to: UInt8.self), length: src.length)
     }
 }

@@ -27,7 +27,7 @@ static size_t outputPtrCapacity;
 
 static CFIndex incsize = 0;
 
-void* cf_nkf_realloc_copy(void* ptr, unsigned int newSize)
+void* cf_nkf_realloc_copy(void* ptr, CFIndex newSize)
 {
     return realloc(ptr, newSize);
 }
