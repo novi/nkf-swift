@@ -48,9 +48,9 @@ cf_nkf_putchar(unsigned int c)
 
 #define PERL_XS 1
 
-#include "nkf/config.h"
-#include "nkf/utf8tbl.c"
-#include "nkf/nkf.c"
+#include "../c_nkf/config.h"
+#include "../c_nkf/utf8tbl.c"
+#include "../c_nkf/nkf.c"
 
 CF_EXPORT uint8_t* cf_nkf_convert(const uint8_t* src, size_t srcLength, const char* opts, CFIndex* outLength)
 {

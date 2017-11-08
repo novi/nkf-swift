@@ -7,5 +7,5 @@ let package = Package(
         Target(name: "CNKF"),
     ],
     dependencies: [],
-    exclude: ["Xcode", "CNKF", "Sources/CNKF/nkf"]    
+    exclude: ["Xcode", "CNKF", "Sources/CNKF/nkf", "Sources/c_nkf"]
 )
