@@ -7,11 +7,11 @@
 //
 
 public enum Encoding: String {
-    case UTF8 = "UTF-8"
-    case ShiftJIS = "Shift_JIS"
-    case EUCJP = "EUC-JP"
-    case Ascii = "ASCII"
-    case ISO2022JP = "ISO-2022-JP"
-    case UTF16 = "UTF-16"
-    case UTF32 = "UTF-32"
+    case utf8 = "UTF-8"
+    case shiftJIS = "Shift_JIS"
+    case eucJP = "EUC-JP"
+    case ascii = "ASCII"
+    case iso2022JP = "ISO-2022-JP"
+    case utf16 = "UTF-16"
+    case utf32 = "UTF-32"
 }

@@ -19,7 +19,8 @@ extension NKFBasicTests {
                    ("testGuessUTF8", testGuessUTF8),
                    ("testGuessSJIS", testGuessSJIS),
                    ("testGuessEUCJP", testGuessEUCJP),
-                   ("testShortString", testShortString)
+                   ("testShortString", testShortString),
+                   ("testEmptyString", testEmptyString)
         ]
     }
 }
@@ -57,7 +58,7 @@ class NKFBasicTests: XCTestCase {
     func testEUCJPToUTF8() {
         let src = "日本語あいう123"
         #if os(OSX)
-            // TODO: fail in Linux
+            // TODO: failure in Linux
             let eucjp = src.data(using: .japaneseEUC)!
         #else
             let srcBytes:[UInt8] = [0xc6, 0xfc, 0xcb, 0xdc, 0xb8, 0xec, 0xa4, 0xa2, 0xa4, 0xa4, 0xa4, 0xa6, 0x31, 0x32, 0x33] //"日本語あいう123"
@@ -71,36 +72,44 @@ class NKFBasicTests: XCTestCase {
     func testGuessUTF8() {
         let src = "日本語🍣あいうえお123"
         let out = NKF.guess(data: src.data(using: .utf8)!)
-        XCTAssertEqual(out!, Encoding.UTF8)
+        XCTAssertEqual(out!, Encoding.utf8)
     }
     
     func testGuessSJIS() {
         let src = "日本語あいうえお123"
         let out = NKF.guess(data: src.data(using: .shiftJIS)!)
-        XCTAssertEqual(out!, Encoding.ShiftJIS)
+        XCTAssertEqual(out!, Encoding.shiftJIS)
     }
     
     func testGuessEUCJP() {
         let src = "日本語あいうえお123"
         #if os(OSX)
-            // TODO: fail in Linux
+            // TODO: failure in Linux
             let eucjp = src.data(using: .japaneseEUC)!
         #else
             let srcBytes:[UInt8] = [0xc6, 0xfc, 0xcb, 0xdc, 0xb8, 0xec, 0xa4, 0xa2, 0xa4, 0xa4, 0xa4, 0xa6, 0x31, 0x32, 0x33] //"日本語あいう123"
             let eucjp = NSData(bytes: srcBytes, length: srcBytes.count)
         #endif
         let out = NKF.guess(data: eucjp)
-        XCTAssertEqual(out!, Encoding.EUCJP)
+        XCTAssertEqual(out!, Encoding.eucJP)
     }
 
     func testShortString() {
         let src = "OK"
         
-        let srcData = src.data(using: .utf8)!
+        let srcData = src.data(using: .shiftJIS)!
         let out = NKF.convert(data: srcData) as String?
         
         XCTAssertEqual(out!, src)
+    }
+    
+    func testEmptyString() {
+        let src = ""
         
+        let srcData = src.data(using: .shiftJIS)!
+        let out = NKF.convert(data: srcData) as String?
+        
+        XCTAssertEqual(out!, src)
     }
     
 }
