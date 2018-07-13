@@ -20,6 +20,7 @@ extension NKFBasicTests {
                    ("testGuessSJIS", testGuessSJIS),
                    ("testGuessEUCJP", testGuessEUCJP),
                    ("testShortString", testShortString),
+                   ("testLargeString", testLargeString),
                    ("testEmptyString", testEmptyString)
         ]
     }
@@ -95,12 +96,24 @@ class NKFBasicTests: XCTestCase {
     }
 
     func testShortString() {
-        let src = "OK"
+        let src = "0"
         
         let srcData = src.data(using: .shiftJIS)!
         let out = NKF.convert(data: srcData) as String?
         
         XCTAssertEqual(out!, src)
+    }
+    
+    func testLargeString() {
+        var src = ""
+        for _ in 0...1000000 {
+            src.append("1234567890あいうえお漢字")
+        }
+        let srcData = src.data(using: .shiftJIS)!
+        print("src is", srcData.count, "bytes")
+        let out = NKF.convert(data: srcData) as String?
+        
+        XCTAssertTrue(out == src)
     }
     
     func testEmptyString() {

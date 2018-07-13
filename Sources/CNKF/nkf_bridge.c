@@ -4,6 +4,11 @@
 #ifndef CF_NKF_H
 #define CF_NKF_H
 
+#define CNKF_MAX(a,b) \
+({ __typeof__ (a) _a = (a); \
+__typeof__ (b) _b = (b); \
+_a > _b ? _a : _b; })
+
 #undef getc
 #undef ungetc
 #define getc(f)         (input_ctr>=i_len?-1:input[input_ctr++])
@@ -29,20 +34,27 @@ static CFIndex incsize = 0;
 
 void* cf_nkf_realloc_copy(void* ptr, CFIndex newSize)
 {
-    return realloc(ptr, newSize);
+    void* reallocatedPtr = realloc(ptr, newSize);
+    assert(reallocatedPtr);
+    //printf("reallocated %lld, %lld\n", newSize, output_ctr);
+    return reallocatedPtr;
 }
 
 static int
 cf_nkf_putchar(unsigned int c)
 {
-    if (outputPtr == NULL) return c;
+    if (outputPtr == NULL) return c; // for guess, outputPtr should be NULL
     
-    if (output_ctr >= outputPtrCapacity) {
+    if (output_ctr+1 >= outputPtrCapacity) {
         outputPtr = cf_nkf_realloc_copy(outputPtr, incsize);
-        incsize *= 2;
+        outputPtrCapacity = incsize;
+        if (incsize < 1024*1000*1000) {
+            incsize *= 2;
+        } else {
+            incsize = ((double)incsize) * 1.25;
+        }
     }
     outputPtr[output_ctr++] = c;
-    
     return c;
 }
 
@@ -56,7 +68,6 @@ CF_EXPORT uint8_t* cf_nkf_convert(const uint8_t* src, size_t srcLength, const ch
 {
     
     reinit();
-    incsize = INCSIZE;
     
     options((unsigned char*)opts);
     
@@ -64,15 +75,18 @@ CF_EXPORT uint8_t* cf_nkf_convert(const uint8_t* src, size_t srcLength, const ch
     input = src;
     i_len = srcLength;
     
-    outputPtrCapacity = i_len*3 + 10;
+    // initial outout buffer size
+    outputPtrCapacity = CNKF_MAX(i_len * 2, INCSIZE);
+    incsize = outputPtrCapacity;
     outputPtr = malloc(outputPtrCapacity);
+    assert(outputPtr);
     
     output_ctr = 0;
     *outputPtr = '\0';
     
     kanji_convert(NULL);
     
-    outputPtr[output_ctr++] = '\0';
+    cf_nkf_putchar('\0');
     *outLength = output_ctr;
     
     return outputPtr;
