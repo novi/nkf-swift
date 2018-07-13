@@ -4,6 +4,7 @@
 #ifdef __linux__
 #ifndef CF_EXPORT
 #define CF_EXPORT extern
+#include <assert.h>
 #endif
 #include "CFHeader.h"
 #else
