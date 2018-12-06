@@ -34,6 +34,8 @@ final public class NKF {
         return (out!, outLength)
     }
     
+    // MARK: Convert
+    
     public static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option = []) -> String? {
         var newOptions = options
         _ = newOptions.insert(.toUTF8)
@@ -41,6 +43,14 @@ final public class NKF {
         let out: (UnsafeMutablePointer<UInt8>, Int) = convert(src: src, length: length, options: newOptions)
         defer {
             free(out.0)
+        }
+        if out.1 == 0 {
+            // empty data
+            return nil
+        }
+        if out.1 == 1, out.0.pointee == 0 {
+            // null string
+            return nil
         }
         let ptr = UnsafeMutableRawPointer(out.0).assumingMemoryBound(to: CChar.self)
         if options.contains(.strict) {
@@ -50,7 +60,39 @@ final public class NKF {
         }
     }
     
+    public static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option = []) -> NSData? {
+        let out: (UnsafeMutablePointer<UInt8>, Int) = convert(src: src, length: length, options: options)
+        if out.1 == 0 {
+            // empty data
+            return nil
+        }
+        if out.1 == 1, out.0.pointee == 0 {
+            // null string
+            return nil
+        }
+        return NSData(bytesNoCopy: out.0, length: out.1, freeWhenDone: true)
+    }
+    
+    public static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option = []) -> Data? {
+        guard let data: NSData = convert(src: src, length: length, options: options) else {
+            return nil
+        }
+        return data as Data
+    }
+    
     public static func convert(data srcData: Data, options: Option = []) -> String? {
+        return srcData.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
+            self.convert(src: ptr, length: srcData.count, options: options)
+        })
+    }
+    
+    public static func convert(data srcData: Data, options: Option = []) -> NSData? {
+        return srcData.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
+            self.convert(src: ptr, length: srcData.count, options: options)
+        })
+    }
+    
+    public static func convert(data srcData: Data, options: Option = []) -> Data? {
         return srcData.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
             self.convert(src: ptr, length: srcData.count, options: options)
         })
@@ -59,6 +101,16 @@ final public class NKF {
     public static func convert(data srcData: NSData, options: Option = []) -> String? {
         return self.convert(src: srcData.bytes.assumingMemoryBound(to: UInt8.self), length: srcData.length, options: options)
     }
+    
+    public static func convert(data srcData: NSData, options: Option = []) -> NSData? {
+        return self.convert(src: srcData.bytes.assumingMemoryBound(to: UInt8.self), length: srcData.length, options: options)
+    }
+    
+    public static func convert(data srcData: NSData, options: Option = []) -> Data? {
+        return self.convert(src: srcData.bytes.assumingMemoryBound(to: UInt8.self), length: srcData.length, options: options)
+    }
+    
+    // MARK: Guess
     
     public static func guess(src: UnsafePointer<UInt8>, length: Int) -> Encoding? {
         let out = Sync {

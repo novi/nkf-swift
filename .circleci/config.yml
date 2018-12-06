@@ -7,16 +7,9 @@ jobs:
       - checkout
       - run: swift build
       - run: swift test
-  linux-swift4.0:
-    docker:
-      - image: swift:4.1
-    steps:
-      - checkout
-      - run: swift build
-      - run: swift test
   linux-swift4.1:
     docker:
-      - image: swift:4
+      - image: swift:4.1
     steps:
       - checkout
       - run: swift build
@@ -26,6 +19,5 @@ workflows:
   build_and_test:
     jobs:
       - mac-swift4.1
-      - linux-swift4.0
       - linux-swift4.1
 
