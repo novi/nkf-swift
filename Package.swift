@@ -1,11 +1,14 @@
+// swift-tools-version:4.0
 import PackageDescription
 
 let package = Package(
     name: "NKF",
-    targets: [
-        Target(name: "NKF", dependencies: ["CNKF"]),
-        Target(name: "CNKF"),
+    products: [
+        .library(name: "NKF", targets: ["NKF"])
     ],
-    dependencies: [],
-    exclude: ["Xcode", "CNKF", "Sources/CNKF/nkf", "Sources/c_nkf"]
+    targets: [
+        .target(name: "NKF", dependencies: ["CNKF"]),
+        .target(name: "CNKF"),
+        .testTarget(name: "NKFTests", dependencies: ["NKF"])
+    ]
 )

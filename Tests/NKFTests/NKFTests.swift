@@ -10,31 +10,7 @@ import XCTest
 @testable import NKF
 import Foundation
 
-extension NKFBasicTests {
-    static var allTests : [(String, (NKFBasicTests) -> () throws -> Void)] {
-        return [
-                   ("testUTF8ToUTF8", testUTF8ToUTF8),
-                   ("testShiftJISToUTF8", testShiftJISToUTF8),
-                   ("testEUCJPToUTF8", testEUCJPToUTF8),
-                   ("testGuessUTF8", testGuessUTF8),
-                   ("testGuessSJIS", testGuessSJIS),
-                   ("testGuessEUCJP", testGuessEUCJP),
-                   ("testShortString", testShortString),
-                   ("testLargeString", testLargeString),
-                   ("testEmptyString", testEmptyString)
-        ]
-    }
-}
-
-#if !os(macOS)
-    public func allTests() -> [XCTestCaseEntry] {
-        return [
-            testCase( NKFBasicTests.allTests ),
-        ]
-    }
-#endif
-
-class NKFBasicTests: XCTestCase {
+final class NKFBasicTests: XCTestCase {
     
     func testUTF8ToUTF8() {
         let src = "日本語🍣あいうえお123"
@@ -54,6 +30,20 @@ class NKFBasicTests: XCTestCase {
         
         let out = NKF.convert(data: sjis) as String?
         XCTAssertEqual(out!, src)
+    }
+    
+    func testShiftJISToUTF8Data() {
+        let src = "日本語あいう123"
+        //print("src",src)
+        let sjis = src.data(using: .shiftJIS)!
+        //print("data",eucjp)
+        
+        let out = NKF.convert(data: sjis, options: [.toUTF8]) as Data?
+        let outString = out!.withUnsafeBytes { p in
+            // out data is null-terminated
+            return String(validatingUTF8: p)!
+        }
+        XCTAssertEqual(outString, src)
     }
     
     func testEUCJPToUTF8() {
@@ -122,7 +112,27 @@ class NKFBasicTests: XCTestCase {
         let srcData = src.data(using: .shiftJIS)!
         let out = NKF.convert(data: srcData) as String?
         
-        XCTAssertEqual(out!, src)
+        XCTAssertNil(out)
     }
     
+    func testEmptyDataToData() {
+        let out = NKF.convert(data: Data(), options: [.toUTF8]) as Data?
+        XCTAssertNil(out)
+    }
+    
+    func testInvalidInput() {
+        
+        let srcData = Data([0xff])
+        let out = NKF.convert(data: srcData) as String?
+        
+        XCTAssertNil(out)
+    }
+    
+    func testInvalidInputToData() {
+        
+        let srcData = Data([0xff])
+        let out = NKF.convert(data: srcData) as NSData?
+        
+        XCTAssertNil(out)
+    }
 }
