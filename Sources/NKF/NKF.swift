@@ -77,7 +77,12 @@ final public class NKF {
         guard let data: NSData = convert(src: src, length: length, options: options) else {
             return nil
         }
+        #if swift(>=4.2) || os(macOS)
         return data as Data
+        #else
+        return data._bridgeToSwift()
+        #endif
+        
     }
     
     public static func convert(data srcData: Data, options: Option = []) -> String? {
