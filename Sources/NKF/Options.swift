@@ -13,8 +13,8 @@ extension NKF {
         public init(rawValue: Int) { self.rawValue = rawValue }
         
         // TODO: implement other options
-        static let toUTF8 = Option(rawValue: 1 << 0)
-        static let strict = Option(rawValue: 1 << 1)
+        public static let toUTF8 = Option(rawValue: 1 << 0)
+        public static let strict = Option(rawValue: 1 << 1)
         
         var argValue: String {
             var argValue = ""
