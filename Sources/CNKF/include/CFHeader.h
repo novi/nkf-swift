@@ -14,9 +14,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
-// for 64bit
-
+#if __LLP64__
 typedef signed long long CFIndex;
+#else
+typedef signed long CFIndex;
+#endif
 
 /* nullability */
 #ifndef __nullable
