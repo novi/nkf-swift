@@ -1,12 +1,5 @@
 version: 2
 jobs:
-  mac-swift4.1:
-    macos:
-      xcode: "9.3.0"
-    steps:
-      - checkout
-      - run: swift build
-      - run: swift test
   mac-swift5.0:
     macos:
       xcode: "10.2.0"
@@ -21,16 +14,9 @@ jobs:
       - checkout
       - run: swift build
       - run: swift test
-  linux-swift4.1:
-    docker:
-      - image: swift:4.1
-    steps:
-      - checkout
-      - run: swift build
-      - run: swift test
-  linux-swift4.2:
-    docker:
-      - image: swift:4.2
+  mac-swift5.2:
+    macos:
+      xcode: "11.7.0"
     steps:
       - checkout
       - run: swift build
@@ -49,15 +35,21 @@ jobs:
       - checkout
       - run: swift build
       - run: swift test
+  linux-swift5.2:
+    docker:
+      - image: swift:5.2
+    steps:
+      - checkout
+      - run: swift build
+      - run: swift test
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - mac-swift4.1
       - mac-swift5.0
       - mac-swift5.1
-      - linux-swift4.1
-      - linux-swift4.2
+      - mac-swift5.2
       - linux-swift5.0
       - linux-swift5.1
+      - linux-swift5.2
 
