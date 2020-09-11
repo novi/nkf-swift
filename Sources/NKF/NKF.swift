@@ -26,17 +26,17 @@ final public class NKF {
         return m
     }()
     
-    private static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option) -> (UnsafeMutablePointer<UInt8>, Int) {
+    private static func convert(src: UnsafeRawBufferPointer, length: Int, options: Option) -> (UnsafeMutablePointer<UInt8>, Int) {
         var outLength: CFIndex = 0
         let out = Sync {
-            cf_nkf_convert(src, length, options.argValue, &outLength)
+            cf_nkf_convert(src.bindMemory(to: UInt8.self).baseAddress!, length, options.argValue, &outLength)
         }
         return (out!, outLength)
     }
     
     // MARK: Convert
     
-    public static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option = []) -> String? {
+    public static func convert(src: UnsafeRawBufferPointer, length: Int, options: Option = []) -> String? {
         var newOptions = options
         _ = newOptions.insert(.toUTF8)
         
@@ -56,11 +56,11 @@ final public class NKF {
         if options.contains(.strict) {
             return String(validatingUTF8: ptr)
         } else {
-            return String(cString: ptr)
+            return String(bytesNoCopy: ptr, length: out.1 - 1, encoding: .utf8, freeWhenDone: false)
         }
     }
     
-    public static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option = []) -> NSData? {
+    public static func convert(src: UnsafeRawBufferPointer, length: Int, options: Option = []) -> NSData? {
         let out: (UnsafeMutablePointer<UInt8>, Int) = convert(src: src, length: length, options: options)
         if out.1 == 0 {
             // empty data
@@ -73,53 +73,48 @@ final public class NKF {
         return NSData(bytesNoCopy: out.0, length: out.1, freeWhenDone: true)
     }
     
-    public static func convert(src: UnsafePointer<UInt8>, length: Int, options: Option = []) -> Data? {
+    public static func convert(src: UnsafeRawBufferPointer, length: Int, options: Option = []) -> Data? {
         guard let data: NSData = convert(src: src, length: length, options: options) else {
             return nil
         }
-        #if swift(>=4.2) || os(macOS)
         return data as Data
-        #else
-        return data._bridgeToSwift()
-        #endif
-        
     }
     
     public static func convert(data srcData: Data, options: Option = []) -> String? {
-        return srcData.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
-            self.convert(src: ptr, length: srcData.count, options: options)
-        })
+        return srcData.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) in
+            convert(src: ptr, length: srcData.count, options: options)
+        }
     }
     
     public static func convert(data srcData: Data, options: Option = []) -> NSData? {
-        return srcData.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
-            self.convert(src: ptr, length: srcData.count, options: options)
-        })
+        return srcData.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) in
+            convert(src: ptr, length: srcData.count, options: options)
+        }
     }
     
     public static func convert(data srcData: Data, options: Option = []) -> Data? {
-        return srcData.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
-            self.convert(src: ptr, length: srcData.count, options: options)
-        })
+        return srcData.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) in
+            convert(src: ptr, length: srcData.count, options: options)
+        }
     }
     
     public static func convert(data srcData: NSData, options: Option = []) -> String? {
-        return self.convert(src: srcData.bytes.assumingMemoryBound(to: UInt8.self), length: srcData.length, options: options)
+        return convert(src: UnsafeRawBufferPointer(start: srcData.bytes, count: srcData.length), length: srcData.length, options: options)
     }
     
     public static func convert(data srcData: NSData, options: Option = []) -> NSData? {
-        return self.convert(src: srcData.bytes.assumingMemoryBound(to: UInt8.self), length: srcData.length, options: options)
+        return convert(src: UnsafeRawBufferPointer(start: srcData.bytes, count: srcData.length), length: srcData.length, options: options)
     }
     
     public static func convert(data srcData: NSData, options: Option = []) -> Data? {
-        return self.convert(src: srcData.bytes.assumingMemoryBound(to: UInt8.self), length: srcData.length, options: options)
+        return convert(src: UnsafeRawBufferPointer(start: srcData.bytes, count: srcData.length), length: srcData.length, options: options)
     }
     
     // MARK: Guess
     
-    public static func guess(src: UnsafePointer<UInt8>, length: Int) -> Encoding? {
+    public static func guess(src: UnsafeRawBufferPointer, length: Int) -> Encoding? {
         let out = Sync {
-            cf_nkf_guess(src, length)
+            cf_nkf_guess(src.bindMemory(to: UInt8.self).baseAddress!, length)
         }
         
         guard let codePtr = out, let code = String(validatingUTF8: codePtr) else {
@@ -129,12 +124,12 @@ final public class NKF {
     }
     
     public static func guess(data src: Data) -> Encoding? {
-        return src.withUnsafeBytes({ (ptr: UnsafePointer<UInt8>) in
+        return src.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) in
             guess(src: ptr, length: src.count)
-        })
+        }
     }
     
     public static func guess(data src: NSData) -> Encoding? {
-        return guess(src: src.bytes.assumingMemoryBound(to: UInt8.self), length: src.length)
+        return guess(src: UnsafeRawBufferPointer(start: src.bytes, count: src.length), length: src.length)
     }
 }

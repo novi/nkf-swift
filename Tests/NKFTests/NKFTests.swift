@@ -39,9 +39,9 @@ final class NKFBasicTests: XCTestCase {
         //print("data",eucjp)
         
         let out = NKF.convert(data: sjis, options: [.toUTF8]) as Data?
-        let outString = out!.withUnsafeBytes { p in
+        let outString = out!.withUnsafeBytes { (p: UnsafeRawBufferPointer) in
             // out data is null-terminated
-            return String(validatingUTF8: p)!
+            return String(validatingUTF8: p.bindMemory(to: Int8.self).baseAddress! )!
         }
         XCTAssertEqual(outString, src)
     }
