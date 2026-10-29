@@ -1,55 +1,43 @@
-version: 2
+version: 2.1
 jobs:
-  mac-swift5.0:
+  mac-swift6-4-1:
     macos:
-      xcode: "10.2.0"
+      xcode: "27.1.0"
+    resource_class: m4pro.medium
     steps:
       - checkout
+      - run:
+          name: Install Swift 6.4.1
+          command: |
+            curl --fail --location --retry 3 \
+              https://download.swift.org/swift-6.4.1-release/xcode/swift-6.4.1-RELEASE/swift-6.4.1-RELEASE-osx.pkg \
+              --output /tmp/swift-6.4.1.pkg
+            installer -target CurrentUserHomeDirectory -pkg /tmp/swift-6.4.1.pkg
+            toolchain="$HOME/Library/Developer/Toolchains/swift-6.4.1-RELEASE.xctoolchain"
+            toolchain_id=$(plutil -extract CFBundleIdentifier raw "$toolchain/Info.plist")
+            printf 'export TOOLCHAINS="%s"\n' "$toolchain_id" >> "$BASH_ENV"
+            printf 'export PATH="%s/usr/bin:$PATH"\n' "$toolchain" >> "$BASH_ENV"
+      - run:
+          name: Verify Swift 6.4.1
+          command: |
+            swift --version | tee /tmp/swift-version.txt
+            grep -Eq 'Swift version 6\.4\.1([[:space:]]|$)' /tmp/swift-version.txt
       - run: swift build
       - run: swift test
-  mac-swift5.1:
-    macos:
-      xcode: "11.0.0"
-    steps:
-      - checkout
-      - run: swift build
-      - run: swift test
-  mac-swift5.2:
-    macos:
-      xcode: "11.7.0"
-    steps:
-      - checkout
-      - run: swift build
-      - run: swift test
-  linux-swift5.0:
+  linux-swift6-4-1:
     docker:
-      - image: swift:5.0
+      - image: swift:6.4.1-noble
     steps:
       - checkout
-      - run: swift build
-      - run: swift test
-  linux-swift5.1:
-    docker:
-      - image: swift:5.1
-    steps:
-      - checkout
-      - run: swift build
-      - run: swift test
-  linux-swift5.2:
-    docker:
-      - image: swift:5.2
-    steps:
-      - checkout
+      - run:
+          name: Verify Swift 6.4.1
+          command: |
+            swift --version | tee /tmp/swift-version.txt
+            grep -Eq 'Swift version 6\.4\.1([[:space:]]|$)' /tmp/swift-version.txt
       - run: swift build
       - run: swift test
 workflows:
-  version: 2
   build_and_test:
     jobs:
-      - mac-swift5.0
-      - mac-swift5.1
-      - mac-swift5.2
-      - linux-swift5.0
-      - linux-swift5.1
-      - linux-swift5.2
-
+      - mac-swift6-4-1
+      - linux-swift6-4-1
